@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Scrollower",
+  "version": "1.0.0",
+  "description": "Automatically scrolls and follows on a profile.",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

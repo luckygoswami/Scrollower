@@ -1,0 +1,75 @@
+body {
+  width: 300px;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  padding: 16px;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+input[type='text'] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.speed-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+#speed {
+  flex: 1;
+}
+
+#speedValue {
+  width: 35px;
+  text-align: right;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  flex: 1;
+  padding: 9px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#start {
+  background: #222;
+  color: white;
+}
+
+#stop {
+  background: #ddd;
+  color: #222;
+}
+
+#status {
+  margin-top: 12px;
+  font-size: 12px;
+}
