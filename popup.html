@@ -5,7 +5,7 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Div Auto Scroll</title>
+    <title>Scrollower</title>
     <link
       rel="stylesheet"
       href="popup.css" />
@@ -13,31 +13,13 @@
 
   <body>
     <div class="container">
-      <h2>Div Auto Scroll</h2>
-
-      <label for="selector">CSS Selector</label>
-
-      <input
-        id="selector"
-        type="text"
-        placeholder=".chat-container" />
-
-      <label for="speed">Speed</label>
-
-      <div class="speed-row">
-        <input
-          id="speed"
-          type="range"
-          min="10"
-          max="500"
-          value="100" />
-
-        <span id="speedValue">100</span>
-      </div>
+      <h2>Scrollower</h2>
 
       <div class="buttons">
         <button id="start">Start</button>
-        <button id="stop">Stop</button>
+        <button
+          id="stop"
+          disabled>Stop</button>
       </div>
 
       <div id="status"></div>
