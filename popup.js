@@ -14,7 +14,6 @@ startButton.addEventListener('click', async () => {
   });
 
   startButton.toggleAttribute('disabled');
-  stopButton.toggleAttribute('disabled');
 
   status.textContent = 'Auto-scroll started.';
 });
@@ -31,7 +30,6 @@ stopButton.addEventListener('click', async () => {
   });
 
   startButton.toggleAttribute('disabled');
-  stopButton.toggleAttribute('disabled');
 
   status.textContent = 'Auto-scroll stopped.';
 });
