@@ -1,27 +1,66 @@
-let scrollTimer;
+let scrolling = false;
 
-function startScrolling() {
-  const element = document.getElementById('scrollBox');
+const usersContainer = document.querySelector('div.x1qnrgzn').parentElement;
 
-  if (!element) {
-    console.log('Auto Scroll: Element not found:', selector);
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const refetchUsers = (parentContainer) => {
+  const lastUser = parentContainer.lastChild;
+  const firstUser = parentContainer.firstChild;
+  lastUser.scrollIntoView(true);
+  firstUser.scrollTop = 0;
+};
+
+async function startScrolling() {
+  // Prevent multiple scrolling loops
+  if (scrolling) {
+    console.log('Auto Scroll: Already running');
     return;
   }
 
-  scrollTimer = setInterval(() => {
-    element.scrollTop += 50;
-  }, 1000);
+  if (usersContainer.childElementCount < 1) {
+    console.log('Auto Scroll: Scrollable Users not found');
+    return;
+  }
 
-  console.log('Auto Scroll started:', element);
-}
+  scrolling = true;
 
-function stopScrolling() {
-  if (scrollTimer !== null) {
-    clearTimeout(scrollTimer);
-    scrollTimer = null;
+  console.log('Auto Scroll started:', usersContainer);
+
+  refetchUsers(usersContainer);
+
+  while (scrolling) {
+    if (usersContainer.childElementCount < 12) {
+      console.log('Auto Scroll: No user found, scrolling to bottom');
+      refetchUsers(usersContainer);
+
+      usersContainer.style.setProperty('padding-bottom', '0px', 'important');
+
+      await sleep(3000);
+      continue;
+    }
+
+    const user = document.querySelector('div.x1qnrgzn');
+    const followButton = user.querySelector('button');
+
+    if (followButton?.firstChild?.firstChild?.textContent === 'Follow') {
+      followButton.click();
+    }
+
+    // Remove the user from the page
+    user.remove();
+    usersContainer.style.setProperty('padding-bottom', '0px', 'important');
+
+    // Wait 100ms before processing the next user
+    await sleep(100);
   }
 
   console.log('Auto Scroll stopped');
+}
+
+function stopScrolling() {
+  scrolling = false;
+  console.log('Auto Scroll: Stop requested');
 }
 
 chrome.runtime.onMessage.addListener((message) => {
