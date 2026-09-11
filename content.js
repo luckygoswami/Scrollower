@@ -1,46 +1,24 @@
-let animationId = null;
-let scrolling = false;
+let scrollTimer;
 
-function startScrolling(selector, speed) {
-  const element = document.querySelector(selector);
+function startScrolling() {
+  const element = document.getElementById('scrollBox');
 
   if (!element) {
     console.log('Auto Scroll: Element not found:', selector);
     return;
   }
 
-  if (scrolling) {
-    stopScrolling();
-  }
-
-  scrolling = true;
-
-  let lastTime = performance.now();
-
-  function scroll(timestamp) {
-    if (!scrolling) {
-      return;
-    }
-
-    const deltaTime = (timestamp - lastTime) / 1000;
-    lastTime = timestamp;
-
-    element.scrollTop += speed * deltaTime;
-
-    animationId = requestAnimationFrame(scroll);
-  }
-
-  animationId = requestAnimationFrame(scroll);
+  scrollTimer = setInterval(() => {
+    element.scrollTop += 50;
+  }, 1000);
 
   console.log('Auto Scroll started:', element);
 }
 
 function stopScrolling() {
-  scrolling = false;
-
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId);
-    animationId = null;
+  if (scrollTimer !== null) {
+    clearTimeout(scrollTimer);
+    scrollTimer = null;
   }
 
   console.log('Auto Scroll stopped');
@@ -48,7 +26,7 @@ function stopScrolling() {
 
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action === 'start') {
-    startScrolling(message.selector, message.speed);
+    startScrolling();
   }
 
   if (message.action === 'stop') {
