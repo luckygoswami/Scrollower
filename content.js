@@ -1,6 +1,5 @@
 let scrolling = false;
-
-const usersContainer = document.querySelector('div.x1qnrgzn').parentElement;
+let followCount = 0;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -11,7 +10,10 @@ const refetchUsers = (parentContainer) => {
   firstUser.scrollTop = 0;
 };
 
-async function startScrolling() {
+async function startScrolling(followLimit) {
+  const usersContainer = document.querySelector('div.x1qnrgzn').parentElement;
+
+  console.log('follow limit', followLimit, followCount);
   // Prevent multiple scrolling loops
   if (scrolling) {
     console.log('Auto Scroll: Already running');
@@ -29,7 +31,7 @@ async function startScrolling() {
 
   refetchUsers(usersContainer);
 
-  while (scrolling) {
+  while (scrolling && followCount <= followLimit) {
     if (usersContainer.childElementCount < 12) {
       console.log('Auto Scroll: No user found, scrolling to bottom');
       refetchUsers(usersContainer);
@@ -49,6 +51,7 @@ async function startScrolling() {
 
     // Remove the user from the page
     user.remove();
+    followCount++;
     usersContainer.style.setProperty('padding-bottom', '0px', 'important');
 
     // Wait 100ms before processing the next user
