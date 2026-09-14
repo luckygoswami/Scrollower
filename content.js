@@ -68,7 +68,7 @@ function stopScrolling() {
 
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action === 'start') {
-    startScrolling();
+    startScrolling(message.followLimit);
   }
 
   if (message.action === 'stop') {
