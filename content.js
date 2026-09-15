@@ -54,8 +54,8 @@ async function startScrolling(followLimit) {
     followCount++;
     usersContainer.style.setProperty('padding-bottom', '0px', 'important');
 
-    // Wait 100ms before processing the next user
-    await sleep(100);
+    // Wait 500ms before processing the next user
+    await sleep(500);
   }
 
   console.log('Auto Scroll stopped');
