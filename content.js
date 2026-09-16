@@ -1,5 +1,5 @@
-let scrolling = false;
-let followCount = 0;
+let scriptRunning = false;
+
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -10,31 +10,31 @@ const refetchUsers = (parentContainer) => {
   firstUser.scrollTop = 0;
 };
 
-async function startScrolling(followLimit) {
+async function startFollow(followLimit) {
+  let followCount = 0;
   const usersContainer = document.querySelector('div.x1qnrgzn').parentElement;
 
-  console.log('follow limit', followLimit, followCount);
-  // Prevent multiple scrolling loops
-  if (scrolling) {
-    console.log('Auto Scroll: Already running');
+  // Prevent multiple script running loops
+  if (scriptRunning) {
+    console.log('Script already running');
     return;
   }
 
   if (usersContainer.childElementCount < 1) {
-    console.log('Auto Scroll: Scrollable Users not found');
+    console.log('Users not found');
     return;
   }
 
-  scrolling = true;
+  scriptRunning = true;
 
-  console.log('Auto Scroll started:', usersContainer);
+  console.log(`Script started with ${followLimit} follow limit.`);
 
-  refetchUsers(usersContainer);
+  refetchByScroll(usersContainer);
 
-  while (scrolling && followCount <= followLimit) {
+  while (scriptRunning && followCount <= followLimit) {
     if (usersContainer.childElementCount < 12) {
-      console.log('Auto Scroll: No user found, scrolling to bottom');
-      refetchUsers(usersContainer);
+      console.log('No user found, refetching users.');
+      refetchByScroll(usersContainer);
 
       usersContainer.style.setProperty('padding-bottom', '0px', 'important');
 
@@ -58,7 +58,12 @@ async function startScrolling(followLimit) {
     await sleep(500);
   }
 
-  console.log('Auto Scroll stopped');
+  console.log(`Script stopped after following ${followCount} accounts.`);
+}
+
+function stopScript() {
+  scriptRunning = false;
+  console.log('Script: Stop requested');
 }
 
 function stopScrolling() {
@@ -67,11 +72,11 @@ function stopScrolling() {
 }
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.action === 'start') {
-    startScrolling(message.followLimit);
+  if (message.action === 'startFollowing') {
+    startFollow(message.followLimit);
   }
 
-  if (message.action === 'stop') {
-    stopScrolling();
+  if (message.action === 'stopScript') {
+    stopScript();
   }
 });
