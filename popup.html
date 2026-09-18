@@ -15,23 +15,65 @@
     <div class="container">
       <h2>Scrollower</h2>
 
-      <div class="buttons">
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
+      <div class="follow-container">
+        <h3>Follow</h3>
+        <div>
+          <label for="follow-limit">Limit</label>
+          <input
+            type="range"
+            id="follow-limit"
+            min="100"
+            max="1000"
+            step="100"
+            value="300" />
+          <span id="follow-limit-value">300</span>
+        </div>
+        <div>
+          <label for="follow-delay">Delay</label>
+          <input
+            type="range"
+            id="follow-delay"
+            min="0.5"
+            max="10"
+            step="0.5"
+            value="2" />
+          <span id="follow-delay-value">2s</span>
+        </div>
+        <button id="start-follow">Start Following</button>
       </div>
-      <div class="follow-range">
-        <label for="followLimit">Follow Limit</label>
-        <input
-          id="followLimit"
-          type="range"
-          min="100"
-          max="1000"
-          step="100"
-          value="300" />
 
-        <span id="followLimitValue">300</span>
+      <hr />
+
+      <div class="unfollow-container">
+        <h3>Unfollow</h3>
+        <div>
+          <label for="unfollow-limit">Limit</label>
+          <input
+            type="range"
+            id="unfollow-limit"
+            min="100"
+            max="1000"
+            step="100"
+            value="300" />
+          <span id="unfollow-limit-value">300</span>
+        </div>
+        <div>
+          <label for="unfollow-delay">Delay</label>
+          <input
+            type="range"
+            id="unfollow-delay"
+            min="0.5"
+            max="10"
+            step="0.5"
+            value="2" />
+          <span id="unfollow-delay-value">2s</span>
+        </div>
+        <button id="start-unfollow">Start Unfollowing</button>
       </div>
 
+      <hr />
+
+      <button id="stop">Stop Script</button>
       <div id="status"></div>
     </div>
 
