@@ -10,6 +10,10 @@ const unfollowDelay = document.getElementById('unfollow-delay');
 const unfollowDelayValue = document.getElementById('unfollow-delay-value');
 const stopButton = document.getElementById('stop');
 const status = document.getElementById('status');
+const followAction = document.querySelector('[data-action="follow"]');
+const unfollowAction = document.querySelector('[data-action="unfollow"]');
+const followPanel = document.getElementById('follow-panel');
+const unfollowPanel = document.getElementById('unfollow-panel');
 
 // Show follow limit & delay values dynamically
 followLimit.addEventListener('input', () => {
@@ -27,6 +31,23 @@ unfollowLimit.addEventListener('input', () => {
 
 unfollowDelay.addEventListener('input', () => {
   unfollowDelayValue.textContent = unfollowDelay.value + 's';
+});
+
+// toggle follow-unfollow tabs
+followAction.addEventListener('click', () => {
+  followAction.classList.add('active');
+  unfollowAction.classList.remove('active');
+
+  followPanel.classList.remove('hidden');
+  unfollowPanel.classList.add('hidden');
+});
+
+unfollowAction.addEventListener('click', () => {
+  unfollowAction.classList.add('active');
+  followAction.classList.remove('active');
+
+  unfollowPanel.classList.remove('hidden');
+  followPanel.classList.add('hidden');
 });
 
 // Start follow script

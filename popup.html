@@ -13,68 +13,127 @@
 
   <body>
     <div class="container">
-      <h2>Scrollower</h2>
+      <header class="header">
+        <div class="brand-icon">◎</div>
 
-      <div class="follow-container">
-        <h3>Follow</h3>
         <div>
-          <label for="follow-limit">Limit</label>
+          <h2>Scrollower</h2>
+          <p>Instagram Automation</p>
+        </div>
+      </header>
+
+      <div class="action-switcher">
+        <button
+          class="action-tab active"
+          data-action="follow">
+          Follow
+        </button>
+
+        <button
+          class="action-tab"
+          data-action="unfollow">
+          Unfollow
+        </button>
+      </div>
+
+      <!-- Follow -->
+
+      <section
+        class="action-panel"
+        id="follow-panel">
+        <h3>Follow users</h3>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="follow-limit">Limit</label>
+            <span id="follow-limit-value">100</span>
+          </div>
+
           <input
             type="range"
             id="follow-limit"
-            min="100"
-            max="1000"
-            step="100"
-            value="300" />
-          <span id="follow-limit-value">300</span>
+            min="50"
+            max="500"
+            step="10"
+            value="100" />
         </div>
-        <div>
-          <label for="follow-delay">Delay</label>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="follow-delay">Delay</label>
+            <span id="follow-delay-value">5s</span>
+          </div>
+
           <input
             type="range"
             id="follow-delay"
             min="0.5"
-            max="10"
+            max="30"
             step="0.5"
-            value="2" />
-          <span id="follow-delay-value">2s</span>
+            value="5" />
         </div>
-        <button id="start-follow">Start Following</button>
-      </div>
 
-      <hr />
+        <button
+          id="start-follow"
+          class="primary-button">
+          Start Following
+        </button>
+      </section>
 
-      <div class="unfollow-container">
-        <h3>Unfollow</h3>
-        <div>
-          <label for="unfollow-limit">Limit</label>
+      <!-- Unfollow -->
+
+      <section
+        class="action-panel hidden"
+        id="unfollow-panel">
+        <h3>Unfollow users</h3>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="unfollow-limit">Limit</label>
+            <span id="unfollow-limit-value">100</span>
+          </div>
+
           <input
             type="range"
             id="unfollow-limit"
-            min="100"
-            max="1000"
-            step="100"
-            value="300" />
-          <span id="unfollow-limit-value">300</span>
+            min="50"
+            max="500"
+            step="10"
+            value="100" />
         </div>
-        <div>
-          <label for="unfollow-delay">Delay</label>
+
+        <div class="control">
+          <div class="control-header">
+            <label for="unfollow-delay">Delay</label>
+            <span id="unfollow-delay-value">10s</span>
+          </div>
+
           <input
             type="range"
             id="unfollow-delay"
             min="0.5"
-            max="10"
+            max="30"
             step="0.5"
-            value="2" />
-          <span id="unfollow-delay-value">2s</span>
+            value="10" />
         </div>
-        <button id="start-unfollow">Start Unfollowing</button>
+
+        <button
+          id="start-unfollow"
+          class="primary-button">
+          Start Unfollowing
+        </button>
+      </section>
+
+      <div class="status">
+        <span class="status-dot"></span>
+        <span id="status">Ready</span>
       </div>
 
-      <hr />
-
-      <button id="stop">Stop Script</button>
-      <div id="status"></div>
+      <button
+        id="stop"
+        class="stop-button">
+        Stop Script
+      </button>
     </div>
 
     <script src="popup.js"></script>
