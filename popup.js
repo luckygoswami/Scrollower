@@ -14,10 +14,13 @@ const followAction = document.querySelector('[data-action="follow"]');
 const unfollowAction = document.querySelector('[data-action="unfollow"]');
 const followPanel = document.getElementById('follow-panel');
 const unfollowPanel = document.getElementById('unfollow-panel');
+const followProgress = document.getElementById('follow-progress');
+const unfollowProgress = document.getElementById('unfollow-progress');
 
 // Show follow limit & delay values dynamically
 followLimit.addEventListener('input', () => {
   followLimitValue.textContent = followLimit.value;
+  followProgress.textContent = `0 / ${followLimit.value}`;
 });
 
 followDelay.addEventListener('input', () => {
@@ -27,6 +30,7 @@ followDelay.addEventListener('input', () => {
 // Show unfollow limit & delay values dynamically
 unfollowLimit.addEventListener('input', () => {
   unfollowLimitValue.textContent = unfollowLimit.value;
+  unfollowProgress.textContent = `0 / ${unfollowLimit.value}`;
 });
 
 unfollowDelay.addEventListener('input', () => {
@@ -58,7 +62,7 @@ followBtn.addEventListener('click', async () => {
   });
 
   chrome.tabs.sendMessage(tab.id, {
-    action: 'startFollowing',
+    action: 'follow',
     followLimit: followLimit.value,
     followDelay: followDelay.value * 1000,
   });
@@ -76,7 +80,7 @@ stopButton.addEventListener('click', async () => {
   });
 
   chrome.tabs.sendMessage(tab.id, {
-    action: 'stopScript',
+    action: 'stop',
   });
 
   status.textContent = 'Script stopped.';
@@ -90,7 +94,7 @@ unfollowBtn.addEventListener('click', async () => {
   });
 
   chrome.tabs.sendMessage(tab.id, {
-    action: 'startUnfollowing',
+    action: 'unfollow',
     unfollowLimit: unfollowLimit.value,
     unfollowDelay: unfollowDelay.value * 1000,
   });
@@ -98,4 +102,23 @@ unfollowBtn.addEventListener('click', async () => {
   unfollowBtn.toggleAttribute('disabled');
 
   status.textContent = 'Unfollow script started.';
+});
+
+function updateProgress(action, completed, limit) {
+  const progressText = document.getElementById(`${action}-progress`);
+  const progressBar = document.getElementById(`${action}-progress-bar`);
+
+  if (!progressText || !progressBar) return;
+
+  progressText.textContent = `${completed} / ${limit}`;
+
+  const percentage = (completed / limit) * 100;
+  progressBar.style.width = `${percentage}%`;
+}
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type !== 'progress') return;
+
+  const { action, completed, limit } = message;
+  updateProgress(action, completed, limit);
 });

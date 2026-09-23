@@ -1,5 +1,4 @@
 let scriptRunning = false;
-const whiteList = ['cristiano'];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -58,7 +57,7 @@ const refetchByScroll = (parentContainer) => {
   firstUser.scrollTop = 0;
 };
 
-async function startFollow(followLimit = 100, delay = 1000) {
+async function runFollow(followLimit = 100, delay = 1000) {
   let followCount = 0;
   const usersContainer = document.querySelector('div.x1qnrgzn').parentElement;
 
@@ -100,6 +99,7 @@ async function startFollow(followLimit = 100, delay = 1000) {
     // Remove the user from the page
     user.remove();
     followCount++;
+    sendProgress('follow', followCount, followLimit);
     usersContainer.style.setProperty('padding-bottom', '0px', 'important');
 
     // include required delay before processing the next user
@@ -109,12 +109,12 @@ async function startFollow(followLimit = 100, delay = 1000) {
   console.log(`Script stopped after following ${followCount} accounts.`);
 }
 
-function stopScript() {
+function stopExecution() {
   scriptRunning = false;
   console.log('Script: Stop requested');
 }
 
-async function startUnfollow(unfollowLimit = 100, delay = 1000) {
+async function runUnfollow(unfollowLimit = 100, delay = 1000) {
   let unfollowCount = 0;
   const usersContainer = document.querySelector('div.x1qnrgzn').parentElement;
 
@@ -163,6 +163,7 @@ async function startUnfollow(unfollowLimit = 100, delay = 1000) {
       confirmationButton.click();
       await waitForElementToDisappear('button._a9--');
       unfollowCount++;
+      sendProgress('unfollow', unfollowCount, unfollowLimit);
     }
 
     // Remove the user from the page
@@ -174,15 +175,24 @@ async function startUnfollow(unfollowLimit = 100, delay = 1000) {
 }
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.action === 'startFollowing') {
-    startFollow(message.followLimit, message.followDelay);
+  if (message.action === 'follow') {
+    runFollow(message.followLimit, message.followDelay);
   }
 
-  if (message.action === 'stopScript') {
-    stopScript();
+  if (message.action === 'stop') {
+    stopExecution();
   }
 
-  if (message.action === 'startUnfollowing') {
-    startUnfollow(message.unfollowLimit, message.unfollowDelay);
+  if (message.action === 'unfollow') {
+    runUnfollow(message.unfollowLimit, message.unfollowDelay);
   }
 });
+
+function sendProgress(action, completed, limit) {
+  chrome.runtime.sendMessage({
+    type: 'progress',
+    action,
+    completed,
+    limit,
+  });
+}
